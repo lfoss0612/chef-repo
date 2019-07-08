@@ -13,4 +13,4 @@ default_source :supermarket
 run_list 'media_server::default'
 
 # Specify a custom source for a single cookbook:
-cookbook 'media_server', path: '.'
+cookbook 'media_server', github: '/lfoss0612/chef-repo/tree/master/cookbooks/media_server', branch: 'master'
