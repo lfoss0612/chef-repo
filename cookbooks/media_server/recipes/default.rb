@@ -33,6 +33,35 @@ drives.each do |uuid,label|
   end
 end
 
+directory '/media' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+listextdrives = "lsblk -o UUID,LABEL | grep -e EXT*"
+listextdrives_out = Mixlib::ShellOut.new(listextdrives)
+listextdrives_out.run_command
+drivemap = listextdrives_out.stdout.strip.prepend("{\"")
+drivemap = drivemap.gsub(/\n/, '","')
+drivemap = drivemap.gsub(/[\s\t]+/, '":"')
+drivemap = "\"}".prepend(drivemap)
+drives = JSON.parse(drivemap)
+
+drives.each do |uuid,label|
+  directory "/media/#{label}" do
+    owner 'root'
+    group 'root'
+    mode '0755'
+    action :create
+  end
+
+  mount "/media/#{label}" do
+    device "/dev/disk/by-uuid/#{uuid}"
+  end
+end
+
 remote_file 'raidf-install-mgr.sh' do 
   source 'http://dl.flexraid.com/raidf-install-mgr.sh'
   mode '0755'
