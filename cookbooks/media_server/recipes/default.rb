@@ -72,12 +72,8 @@ ruby_block 'install_raidf' do
   action :run
 end
 
-file '/etc/samba/smb.conf.orig' do
-  content ::File.open('/etc/samba/smb.conf').read
-  action :create_if_missing
-end
-
 template '/etc/samba/smb.conf' do
+  source "smb.conf.erb"
   variables :smb_conf => IO.read('/etc/samba/smb.conf.orig')
 end
 
