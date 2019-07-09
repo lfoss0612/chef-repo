@@ -1,9 +1,6 @@
 require 'mixlib/shellout'
 require 'json'
 
-apt_package 'jq'
-apt_package 'samba'
-
 directory '/raid1' do
   owner 'root'
   group 'root'
