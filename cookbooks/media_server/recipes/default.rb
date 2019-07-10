@@ -68,14 +68,14 @@ bash 'install webmin' do
      EOH
 end
 
-remote_file 'raidf-install-mgr.sh' do 
+remote_file '/tmp/raidf-install-mgr.sh' do 
   source 'http://dl.flexraid.com/raidf-install-mgr.sh'
   mode '0755'
 end
 
 ruby_block 'install_raidf' do
   block do
-    installFlexRAID = Mixlib::ShellOut.new("./raidf-install-mgr.sh", :input => "1\n20f\nyes\n\n")
+    installFlexRAID = Mixlib::ShellOut.new("/tmp/raidf-install-mgr.sh", :input => "1\n20f\nyes\n\n")
     installFlexRAID.run_command
   end
   action :run
