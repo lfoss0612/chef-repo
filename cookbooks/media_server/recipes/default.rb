@@ -61,7 +61,7 @@ end
 
 bash 'install webmin' do 
   code <<-EOH
-     wget -qO- http://www.webmin.com/jcameron-key.asc | sudo apt-key 
+     wget -qO- http://www.webmin.com/jcameron-key.asc | apt-key add 
      add-apt-repository "deb http://download.webmin.com/download/repository sarge contrib"
      apt update
      apt install webmin
