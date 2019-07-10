@@ -59,13 +59,20 @@ drives.each do |uuid,label|
   end
 end
 
-bash 'install webmin' do 
+bash 'download webmin' do 
   code <<-EOH
      wget -qO- http://www.webmin.com/jcameron-key.asc | apt-key add 
      add-apt-repository "deb http://download.webmin.com/download/repository sarge contrib"
-     apt update
-     apt install webmin
+     apt update     
      EOH
+end
+
+ruby_block 'install webmin' do
+  block do
+    installWebmin = Mixlib::ShellOut.new("apt install webmin", :input => "y\n")
+    installWebmin.run_command
+  end
+  action :run
 end
 
 remote_file '/tmp/raidf-install-mgr.sh' do 
