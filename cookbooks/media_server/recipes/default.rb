@@ -59,6 +59,15 @@ drives.each do |uuid,label|
   end
 end
 
+bash 'install webmin' do 
+  code <<-EOH
+     wget -qO- http://www.webmin.com/jcameron-key.asc | sudo apt-key 
+     add-apt-repository "deb http://download.webmin.com/download/repository sarge contrib"
+     apt update
+     apt install webmin
+     EOH
+end
+
 remote_file 'raidf-install-mgr.sh' do 
   source 'http://dl.flexraid.com/raidf-install-mgr.sh'
   mode '0755'
